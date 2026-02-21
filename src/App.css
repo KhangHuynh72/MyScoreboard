@@ -1,0 +1,94 @@
+/* 1. Ensure the background covers the ENTIRE screen */
+html, body {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  min-height: 100vh;
+  background: #16213e; /* Solid fallback color */
+}
+
+.scoreboard-container {
+  min-height: 100vh;
+  width: 100vw; /* Force it to the viewport width */
+  padding: 40px;
+  font-family: 'Inter', system-ui, sans-serif;
+  /* Updated gradient to be more vibrant and cover the whole area */
+  background: radial-gradient(circle at top left, #1a1a2e, #16213e, #0f3460);
+  color: white;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+h2 {
+  text-align: center;
+  font-size: 3rem;
+  margin-top: 0;
+  margin-bottom: 30px;
+  background: linear-gradient(to right, #4facfe, #00f2fe);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* 2. Center the inputs better */
+.controls {
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+  margin-bottom: 50px;
+  width: 100%;
+}
+
+.controls input {
+  padding: 12px 20px;
+  border-radius: 30px;
+  border: 2px solid #0f3460;
+  background: rgba(255, 255, 255, 0.05);
+  color: #00f2fe;
+  font-weight: bold;
+  outline: none;
+}
+
+/* 3. Make the list use the full available width */
+.list {
+  display: grid;
+  /* This creates as many columns as will fit, using all space */
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); 
+  gap: 20px;
+  width: 100%;
+  max-width: 100%; /* Removed the 1400px limit */
+}
+
+.player-card {
+  background: rgba(255, 255, 255, 0.07);
+  backdrop-filter: blur(15px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  padding: 25px;
+  border-radius: 20px;
+  text-align: center;
+  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+}
+
+.total-display {
+  font-size: 2.2rem;
+  font-weight: 900;
+  color: #00f2fe;
+  margin: 10px 0;
+}
+
+.btn {
+  width: 45px;
+  height: 45px;
+  border-radius: 50%;
+  cursor: pointer;
+  border: none;
+  font-weight: bold;
+  font-size: 1.2rem;
+  color: white;
+  transition: 0.2s;
+}
+
+.btn-minus { background: #533483; }
+.btn-plus { background: #0f3460; }
+.btn:hover { opacity: 0.8; transform: scale(1.1); }
