@@ -66,47 +66,73 @@ h2 {
 }
 
 .player-card {
-  /* MORE VIBRANT CARDS: Glass effect */
   background: rgba(255, 255, 255, 0.05);
   backdrop-filter: blur(15px);
   border: 1px solid rgba(255, 255, 255, 0.2);
-  padding: 30px;
+  padding: 20px 30px;
   border-radius: 24px;
-  text-align: center;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
-  transition: 0.3s;
+  
+  /* This ensures the card content stays horizontal if needed */
+  display: flex;
+  flex-direction: column; 
+  align-items: center;
+  gap: 10px;
 }
 
-.player-card:hover {
-  border-color: #00f2fe;
-  transform: translateY(-5px);
+.score-controls {
+  display: flex;
+  flex-direction: row;      /* Forces buttons and score onto one line */
+  align-items: center;      /* Vertically aligns the centers of buttons and text */
+  justify-content: center;  /* Centers the whole group inside the card */
+  gap: 20px;                /* Space between buttons and the number */
+  width: 100%;
+  white-space: nowrap;      /* Prevents the score from wrapping to a new line */
 }
 
 .total-display {
-  font-size: 2.8rem;
+  font-size: 2.2rem;        /* Adjusted size to fit better on one line */
   font-weight: 900;
-  color: #00f2fe; /* Glowing Cyan */
-  margin: 15px 0;
-  text-shadow: 0 0 15px rgba(0, 242, 254, 0.4);
+  color: #00f2fe;
+  margin: 0;                /* Removed margins that might push buttons away */
+  min-width: 120px;         /* Keeps the layout stable when numbers change */
+  text-align: center;
 }
 
 .btn {
   width: 55px;
   height: 55px;
-  border-radius: 50%;
+  border-radius: 50%; /* Makes it a perfect circle */
   cursor: pointer;
   border: none;
   font-weight: bold;
-  font-size: 1.5rem;
+  font-size: 1.8rem;
   color: white;
-  transition: 0.2s;
+  transition: all 0.2s ease;
+  
+  /* THIS FIXES THE "WEIRD" LOOK */
+  display: flex;
+  align-items: center;    /* Vertical center */
+  justify-content: center; /* Horizontal center */
+  line-height: 0;         /* Prevents the text from shifting down */
+  padding: 0;             /* Removes default button padding */
 }
 
-/* OLD COLORS BUT BRIGHTER */
-.btn-minus { background: #4b5563; }
+.btn-minus { 
+  background: #4b5563; 
+}
+
 .btn-plus { 
-    background: #0ea5e9; 
-    box-shadow: 0 0 15px rgba(14, 165, 233, 0.4);
+  background: #0ea5e9; 
+  box-shadow: 0 4px 15px rgba(14, 165, 233, 0.4);
+}
+
+.btn:hover { 
+  transform: scale(1.1);
+  filter: brightness(1.2); 
+}
+
+.btn:active {
+  transform: scale(0.95); /* Little "click" animation */
 }
 
 .btn:hover { opacity: 0.9; transform: scale(1.15); }
