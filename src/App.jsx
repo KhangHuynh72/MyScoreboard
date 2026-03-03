@@ -2,27 +2,23 @@ import React, { useState, useEffect } from 'react';
 import './App.css';
 
 const App = () => {
-  // 1. Load data from LocalStorage on startup
   const [players, setPlayers] = useState(() => {
-    const savedPlayers = localStorage.getItem('scoreboard-players');
-    return savedPlayers ? JSON.parse(savedPlayers) : [];
+    const saved = localStorage.getItem('scoreboard-players');
+    return saved ? JSON.parse(saved) : [];
   });
 
   const [multiplier, setMultiplier] = useState(() => {
-    const savedMult = localStorage.getItem('scoreboard-multiplier');
-    return savedMult ? Number(savedMult) : ''; 
+    const saved = localStorage.getItem('scoreboard-multiplier');
+    return saved ? saved : ''; 
   });
 
   const [playerName, setPlayerName] = useState('');
+  const [showSum, setShowSum] = useState(false); // Toggle state
 
-  // 2. Save to LocalStorage whenever 'players' or 'multiplier' changes
   useEffect(() => {
     localStorage.setItem('scoreboard-players', JSON.stringify(players));
-  }, [players]);
-
-  useEffect(() => {
     localStorage.setItem('scoreboard-multiplier', multiplier);
-  }, [multiplier]);
+  }, [players, multiplier]);
 
   const addPlayer = () => {
     if (players.length < 10 && playerName.trim() !== '') {
@@ -33,54 +29,56 @@ const App = () => {
 
   const updateScore = (index, delta) => {
     const newPlayers = [...players];
-    newPlayers[index].score = Math.max(0, newPlayers[index].score + delta);
+    // Removed Math.max(0) so it can now go negative
+    newPlayers[index].score += delta;
     setPlayers(newPlayers);
   };
 
-  // 3. Optional: Clear everything
-  const resetAll = () => {
-    if(window.confirm("Are you sure you want to delete all players?")) {
-      setPlayers([]);
-      localStorage.removeItem('scoreboard-players');
-    }
-  };
+  // Calculate the total sum of all raw scores
+  const totalScoreSum = players.reduce((acc, p) => acc + p.score, 0);
 
   return (
     <div className="scoreboard-container">
       <h2>Tournament Tracker</h2>
       
       <div className="controls">
-        <input 
-          type="number" 
-          value={multiplier} 
-          placeholder="Enter the value"
-          onChange={(e) => setMultiplier(Number(e.target.value))}
-        />
-        <input 
-          type="text" 
-          value={playerName} 
-          placeholder="New Player Name"
-          onChange={(e) => setPlayerName(e.target.value)}
-        />
-        <button onClick={addPlayer} disabled={players.length >= 10}>
-          Add Player
+        <input type="number" value={multiplier} placeholder="Multiplier" onChange={(e) => setMultiplier(e.target.value)} />
+        <input type="text" value={playerName} placeholder="Player Name" onChange={(e) => setPlayerName(e.target.value)} />
+        <button className="btn-add" onClick={addPlayer}>Add Player</button>
+        
+        {/* Toggle Button */}
+        <button 
+          className={`btn-toggle ${showSum ? 'active' : ''}`} 
+          onClick={() => setShowSum(!showSum)}
+        >
+          {showSum ? 'Hide Sum' : 'Check Sum'}
         </button>
-        <button onClick={resetAll} style={{background: '#ff4444'}}>Reset</button>
       </div>
 
+      {/* Conditional Sum Display */}
+      {showSum && (
+        <div className={`sum-banner ${totalScoreSum === 0 ? 'sum-zero' : 'sum-nonzero'}`}>
+          Total Sum of Scores: {totalScoreSum} 
+          {totalScoreSum === 0 ? " (Balanced ✅)" : " (Unbalanced ❌)"}
+        </div>
+      )}
+
       <div className="list">
-        {players.map((player, index) => (
-          <div key={index} className="player-card">
-            <strong className="player-name">{player.name}</strong>
-            <div className="score-controls">
-              <button className="btn btn-minus" onClick={() => updateScore(index, -1)}>-</button>
-              <span className="total-display">
-                ${(player.score * multiplier).toLocaleString()}
-              </span>
-              <button className="btn btn-plus" onClick={() => updateScore(index, 1)}>+</button>
+        {players.map((player, index) => {
+          const m = multiplier === '' ? 1 : Number(multiplier);
+          return (
+            <div key={index} className="player-card">
+              <strong className="player-name">{player.name}</strong>
+              <div className="score-controls">
+                <button className="btn btn-minus" onClick={() => updateScore(index, -1)}>−</button>
+                <span className="total-display">
+                  ${(player.score * m).toLocaleString()}
+                </span>
+                <button className="btn btn-plus" onClick={() => updateScore(index, 1)}>+</button>
+              </div>
             </div>
-          </div>
-        ))}
+          );
+        })}
       </div>
     </div>
   );
