@@ -1,60 +1,130 @@
-html, body {
+/* 1. RESET EVERYTHING (Kill the black bars) */
+* {
+  box-sizing: border-box;
+}
+
+body, html {
   margin: 0;
   padding: 0;
   width: 100%;
   min-height: 100vh;
-  background-color: #1a1a2e; /* Solid color to prevent gaps */
+  background-color: #050505; /* Deep black fallback */
+  overflow-x: hidden;
 }
 
+/* 2. THE MAIN CONTAINER */
 .scoreboard-container {
   min-height: 100vh;
-  width: 100%; /* Spans full width */
-  background: radial-gradient(circle at top left, #1a1a2e, #16213e, #0f3460);
-  padding: 40px;
-  box-sizing: border-box;
+  width: 100vw; /* Takes up the whole screen width */
+  padding: 50px 20px;
   display: flex;
   flex-direction: column;
   align-items: center;
+  
+  /* SUPER COLORFUL GRADIENT */
+  background: 
+    radial-gradient(circle at 10% 10%, rgba(0, 242, 254, 0.2) 0%, transparent 50%),
+    radial-gradient(circle at 90% 90%, rgba(255, 0, 193, 0.2) 0%, transparent 50%),
+    linear-gradient(135deg, #0f172a 0%, #020617 100%);
 }
 
-.sum-banner {
-  padding: 15px 30px;
-  border-radius: 10px;
-  margin-bottom: 30px;
+/* 3. GLOWING TITLE */
+h2 {
+  font-size: 4rem;
+  margin: 0 0 40px 0;
+  background: linear-gradient(to right, #00f2fe, #ff00c1);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  filter: drop-shadow(0 0 10px rgba(0, 242, 254, 0.4));
+  text-transform: uppercase;
+  letter-spacing: 5px;
+}
+
+/* 4. CONTROLS */
+.controls {
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+  margin-bottom: 40px;
+  flex-wrap: wrap;
+}
+
+.controls input {
+  padding: 12px 25px;
+  border-radius: 50px;
+  border: 1px solid #00f2fe;
+  background: rgba(255, 255, 255, 0.05);
+  color: white;
   font-weight: bold;
-  font-size: 1.2rem;
+  outline: none;
   transition: 0.3s;
 }
 
-.sum-zero {
-  background: rgba(76, 175, 80, 0.2);
-  border: 1px solid #4caf50;
-  color: #4caf50;
+.controls input:focus {
+  box-shadow: 0 0 15px #00f2fe;
 }
 
-.sum-nonzero {
-  background: rgba(233, 69, 96, 0.2);
-  border: 1px solid #e94560;
-  color: #e94560;
-}
-
-.btn-toggle {
-  background: #0f3460;
-  color: white;
-  border: none;
-  padding: 12px 20px;
-  border-radius: 30px;
-  cursor: pointer;
-}
-
-.btn-toggle.active {
-  background: #00f2fe;
-  color: #1a1a2e;
-}
-
+/* 5. THE PLAYER GRID (Fills entire width) */
 .list {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-  gap: 20px;
-  width: 100%; /* Grid now stretches to fill the whole screen */
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); 
+  gap: 30px;
+  width: 100%;
+  max-width: 1600px; /* Limits width just slightly so it doesn't hit the bezel */
+}
+
+/* 6. NEON PLAYER CARDS */
+.player-card {
+  background: rgba(255, 255, 255, 0.03);
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  padding: 40px 20px;
+  border-radius: 24px;
+  text-align: center;
+  transition: 0.3s;
+}
+
+.player-card:hover {
+  border: 1px solid #ff00c1;
+  transform: translateY(-5px);
+}
+
+.player-name {
+  color: #00f2fe;
+  font-size: 1.8rem;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+}
+
+.total-display {
+  font-size: 3rem;
+  font-weight: 900;
+  color: white;
+  margin: 20px 0;
+  text-shadow: 0 0 15px rgba(255, 255, 255, 0.2);
+}
+
+/* 7. NEON BUTTONS */
+.btn {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  cursor: pointer;
+  border: none;
+  font-size: 1.8rem;
+  color: white;
+  transition: 0.2s;
+}
+
+.btn-minus { 
+  background: #334155; 
+}
+
+.btn-plus { 
+  background: linear-gradient(45deg, #00f2fe, #0099ff);
+  box-shadow: 0 0 20px rgba(0, 242, 254, 0.3);
+}
+
+.btn:hover {
+  transform: scale(1.15);
 }
