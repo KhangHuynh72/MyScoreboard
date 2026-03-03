@@ -1,24 +1,17 @@
-/* 1. FORCE THE BACKGROUND TO FILL EVERYTHING */
-* {
-  box-sizing: border-box;
-}
+* { box-sizing: border-box; }
 
-html, body {
-  margin: 0;
-  padding: 0;
-  width: 100%;
-  min-height: 100vh;
-  /* Darker navy blue for better contrast */
-  background-color: #0f172a; 
+body, html {
+  margin: 0; padding: 0;
+  width: 100%; min-height: 100vh;
+  background-color: #0f172a;
   overflow-x: hidden;
 }
 
 .scoreboard-container {
   min-height: 100vh;
-  width: 100vw; /* This kills the black bars on the sides */
-  padding: 40px;
-  font-family: 'Inter', system-ui, sans-serif;
-  /* MORE VIBRANT GRADIENT: Added a bright purple and cyan mix */
+  width: 100vw;
+  padding: 40px 20px;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   background: radial-gradient(circle at top left, #1e293b, #0f172a, #312e81);
   color: white;
   display: flex;
@@ -27,112 +20,117 @@ html, body {
 }
 
 h2 {
-  text-align: center;
-  font-size: 3.5rem;
-  margin-top: 0;
-  margin-bottom: 30px;
-  /* BRIGHTER TEXT GRADIENT */
+  font-size: 3rem;
+  margin: 0 0 30px 0;
   background: linear-gradient(to right, #00f2fe, #a855f7);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
-  filter: drop-shadow(0 0 5px rgba(0, 242, 254, 0.3));
+  text-transform: uppercase;
+  letter-spacing: 3px;
 }
 
 .controls {
   display: flex;
   justify-content: center;
   gap: 15px;
-  margin-bottom: 50px;
-  width: 100%;
+  margin-bottom: 40px;
+  flex-wrap: wrap;
 }
 
 .controls input {
   padding: 12px 20px;
   border-radius: 30px;
-  border: 2px solid #38bdf8; /* Brighter border */
+  border: 1px solid #38bdf8;
   background: rgba(255, 255, 255, 0.1);
   color: #00f2fe;
-  font-weight: bold;
   outline: none;
 }
 
+.btn-main {
+  padding: 12px 25px;
+  border-radius: 30px;
+  border: none;
+  background: #0ea5e9;
+  color: white;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.btn-toggle.active { background: #00f2fe; color: #0f172a; }
+
+.sum-banner {
+  padding: 15px 30px;
+  border-radius: 15px;
+  margin-bottom: 30px;
+  font-weight: bold;
+}
+.sum-zero { background: rgba(0, 255, 136, 0.1); border: 1px solid #00ff88; color: #00ff88; }
+.sum-nonzero { background: rgba(255, 51, 102, 0.1); border: 1px solid #ff3366; color: #ff3366; }
+
 .list {
   display: grid;
-  /* This ensures it uses the whole screen width */
-  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); 
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
   gap: 25px;
   width: 100%;
-  max-width: 100%; 
+  max-width: 100%;
 }
 
 .player-card {
   background: rgba(255, 255, 255, 0.05);
-  backdrop-filter: blur(15px);
+  backdrop-filter: blur(10px);
   border: 1px solid rgba(255, 255, 255, 0.2);
-  padding: 20px 30px;
+  padding: 25px;
   border-radius: 24px;
-  
-  /* This ensures the card content stays horizontal if needed */
+  text-align: center;
   display: flex;
-  flex-direction: column; 
+  flex-direction: column;
   align-items: center;
-  gap: 10px;
+  transition: 0.3s;
 }
+
+.leader-glow { border-color: #00f2fe; box-shadow: 0 0 20px rgba(0, 242, 254, 0.4); }
+.bet-active { background: rgba(234, 179, 8, 0.1); }
 
 .score-controls {
   display: flex;
-  flex-direction: row;      /* Forces buttons and score onto one line */
-  align-items: center;      /* Vertically aligns the centers of buttons and text */
-  justify-content: center;  /* Centers the whole group inside the card */
-  gap: 20px;                /* Space between buttons and the number */
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
   width: 100%;
-  white-space: nowrap;      /* Prevents the score from wrapping to a new line */
+  margin: 15px 0;
 }
 
 .total-display {
-  font-size: 2.2rem;        /* Adjusted size to fit better on one line */
+  font-size: 2.2rem;
   font-weight: 900;
   color: #00f2fe;
-  margin: 0;                /* Removed margins that might push buttons away */
-  min-width: 120px;         /* Keeps the layout stable when numbers change */
-  text-align: center;
+  min-width: 130px;
 }
 
 .btn {
-  width: 55px;
-  height: 55px;
-  border-radius: 50%; /* Makes it a perfect circle */
-  cursor: pointer;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
   border: none;
-  font-weight: bold;
-  font-size: 1.8rem;
-  color: white;
-  transition: all 0.2s ease;
-  
-  /* THIS FIXES THE "WEIRD" LOOK */
+  cursor: pointer;
   display: flex;
-  align-items: center;    /* Vertical center */
-  justify-content: center; /* Horizontal center */
-  line-height: 0;         /* Prevents the text from shifting down */
-  padding: 0;             /* Removes default button padding */
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5rem;
+  color: white;
+  padding: 0;
 }
+.btn-minus { background: #475569; }
+.btn-plus { background: #0ea5e9; }
 
-.btn-minus { 
-  background: #4b5563; 
+.btn-bet {
+  margin-top: 10px;
+  width: 100%;
+  padding: 10px;
+  border-radius: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  background: transparent;
+  color: white;
+  cursor: pointer;
 }
-
-.btn-plus { 
-  background: #0ea5e9; 
-  box-shadow: 0 4px 15px rgba(14, 165, 233, 0.4);
-}
-
-.btn:hover { 
-  transform: scale(1.1);
-  filter: brightness(1.2); 
-}
-
-.btn:active {
-  transform: scale(0.95); /* Little "click" animation */
-}
-
-.btn:hover { opacity: 0.9; transform: scale(1.15); }
+.bet-selected { background: #eab308 !important; color: #000 !important; font-weight: bold; }
